@@ -1,16 +1,3 @@
-
-
-class MutableString(list):
-    '''
-    A mutable string backed by a list
-    '''
-    def __init__(self, s):
-        self.data = [ c for c in s ]
-
-    def __repr__(self):
-        return '[' 
-    
-
 class Hangman:
     '''
     Holds the state for a single instance of a hangman game.
@@ -35,14 +22,14 @@ class Hangman:
                 if self.words[i][j] == letter:
                     self.current[i][j] = ord(letter);
                     found = True
-        if found:
+        if not found:
             self.score+=1
 
     def check_win(self):
         return self.get_current_string() == self.get_words_string()
 
     def check_loss(self):
-        return self.score <= self.max_score
+        return self.score > self.max_score
 
     def get_current_string(self):
         '''
@@ -56,18 +43,27 @@ class Hangman:
         '''
         return ' '.join(self.words)
 
+    def play(self, letter):
+        '''
+        Simulate a turn
+        '''
+        self.check_letter(letter)
+        print('Letters checked: ' + ', '.join(sorted(self.checked_letters)))
+        print('Current Words: ' + self.get_current_string())
+        print('Score: ' + str(self.score))
+
         
 
 def main():
     #hm = Hangman('some words for testing')
-    hm = Hangman('oz')
-    print(hm.words)
-    print(hm.get_current_string())
-    hm.check_letter('o')
-    print(hm.get_current_string())
-    hm.check_letter('z')
-    hm.get_current_string()
-    print(hm.check_win())
+    hm = Hangman('asdf')
+    while (not hm.check_win() and not hm.check_loss()):
+        c = input().strip()
+        hm.play(c)
+    if hm.check_win():
+        print('Victory!')
+    elif hm.check_loss:
+        print('Defeat...')
 
 
 if __name__ == '__main__':
