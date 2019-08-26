@@ -55,9 +55,7 @@ class Hangman:
         self.check_letter(letter)
         print('Letters checked: ' + ', '.join(sorted(self.checked_letters)))
         print('Current Words: ' + self.get_current_string())
-        print('Score: ' + str(self.score))
         print(HM_STATES[self.score])
-
         
 
 def main():
@@ -72,6 +70,7 @@ def main():
         print('Victory!')
     elif hm.check_loss:
         print('Defeat...')
+        print(hm.get_words_string())
 
 
 if __name__ == '__main__':
